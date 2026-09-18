@@ -328,6 +328,15 @@ def test_numbers():
     y("a {:X} b", "a 1234567890abcdef b", 0x1234567890ABCDEF)
     y("a {:X} b", "a 0X1234567890ABCDEF b", 0x1234567890ABCDEF)
 
+    # issue247: the '#' alternate-form flag must be accepted, not rejected as
+    # an unrecognised spec. It formats with a 0x/0o/0b prefix, which already
+    # parses.
+    y("a {:#x} b", "a 0xff b", 0xFF)
+    y("a {:#X} b", "a 0XFF b", 0xFF)
+    y("a {:#o} b", "a 0o17 b", 0o17)
+    y("a {:#b} b", "a 0b101 b", 0b101)
+    y("a {:#06x} b", "a 0x00ff b", 0xFF)
+
     y("a {:05d} b", "a 00001 b", 1)
     y("a {:05d} b", "a -00001 b", -1)
     y("a {:05d} b", "a +00001 b", 1)

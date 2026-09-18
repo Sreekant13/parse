@@ -362,6 +362,14 @@ def extract_format(format, extra_types):
     if format.startswith(("+", "-", " ")):
         format = format[1:]
 
+    # Alternate form ('#'), e.g. {:#x}/{:#o}/{:#b}. Captured and skipped so it
+    # does not fall through to the type check as an unrecognised spec: the
+    # converters already accept the 0x/0o/0b prefix it produces.
+    alternate = False
+    if format.startswith("#"):
+        alternate = True
+        format = format[1:]
+
     zero = False
     if format and format[0] == "0":
         zero = True
